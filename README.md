@@ -51,3 +51,55 @@ QButtonGroup *group = this->findChild<QButtonGroup *>("group");
 
 ————————————————————————————————————————————--------------------------------------------------------------------分割线
 ----------------------------------------------------------------
+
+
+
+QComboBox中添加数据
+
+    ui->setupUi(this);
+    ui->comboBox->clear();
+
+    ui->comboBox->addItem("Item001");
+    ui->comboBox->addItem("Item002");
+
+    
+
+    ui->comboBox->addItem(QIcon(),"Item003");
+    QStringList s1 = {"4","5"};
+
+    ui->comboBox->addItems(s1);
+
+    ui->comboBox->insertItem(1,"insert");
+    
+    
+    QComboBox中插入自定义数据 访问自定义数据
+    
+    //自定义数据
+    struct MyType
+{
+    int x = 0;
+    int y =0;
+    MyType() {}
+};
+Q_DECLARE_METATYPE(MyType)
+
+{
+
+//插入自定义数据
+    QVariant var;
+    MyType my;
+    my.x=101;
+    var.setValue(my);
+    ui->comboBox->addItem("Item001",var);
+}
+
+
+//访问自定义数据
+void Widget::on_pushButton_clicked()
+{
+    qDebug()<<ui->comboBox->itemText(0);
+    QVariant var = ui->comboBox->itemData(0);
+    qDebug()<< "var.value<MyType>().x ="<<var.value<MyType>().x;
+}
+
+
