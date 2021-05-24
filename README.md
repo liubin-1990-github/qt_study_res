@@ -101,5 +101,14 @@ void Widget::on_pushButton_clicked()
     QVariant var = ui->comboBox->itemData(0);
     qDebug()<< "var.value<MyType>().x ="<<var.value<MyType>().x;
 }
+    
+   comboBox 的一些信号
+    {
+            connect(ui->comboBox,SIGNAL(activated(int)),this,SLOT(sel(int)));
+    connect(ui->comboBox,SIGNAL(activated(QString)),this,SLOT(sel(QString))); //只有用户选择激发
+    connect(ui->comboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(cur(int)));
+    connect(ui->comboBox,SIGNAL(currentIndexChanged(QString)),this,SLOT(cur(QString)));//用户选择和代码都可以激发
+    connect(ui->comboBox,SIGNAL(highlighted(int)),this,SLOT(hi(int)));
+    }
 
 
