@@ -110,5 +110,52 @@ void Widget::on_pushButton_clicked()
     connect(ui->comboBox,SIGNAL(currentIndexChanged(QString)),this,SLOT(cur(QString)));//用户选择和代码都可以激发
     connect(ui->comboBox,SIGNAL(highlighted(int)),this,SLOT(hi(int)));
     }
+    
+    
+    -----------------------------------------
+    
+    -----------------------------------------------------------------------------------------------------------
+    QListWidget
+    
+    selectionMode
+
+    flow 从上到下还是从左到右
+    gridSize 每一行的宽高
+    iconSize 图标的宽高
+    
+    
+    {
+    ui->setupUi(this);
+    ui->listWidget->clear();
+
+    //插入数据的各种方法
+    QListWidgetItem *item1=new QListWidgetItem;
+    item1->setText(QString::fromLocal8Bit("测试数据1"));
+    ui->listWidget->insertItem(0,item1);
+
+    new QListWidgetItem("test item2",ui->listWidget);
+    
+    ui->listWidget->addItem("test item3");
+    //插入包含图标的数据
+    QListWidgetItem *itemIcon = new QListWidgetItem;
+    itemIcon->setText("test item icon");
+    itemIcon->setIcon(QIcon("path"));
+    ui->listWidget->addItem(itemIcon);
+}
+    
+       //遍历列表
+    for(int i = 0 ; i<ui->listWidget->count();i++)
+    {
+        qDebug()<<ui->listWidget->item(i)->text();
+
+    }
+    //设置可编辑状态
+    //所有时间都激发编辑 双击选择 选项变化
+    ui->listWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
+    for(int i = 0 ; i<ui->listWidget->count();i++)
+    {
+        ui->listWidget->item(i)->setFlags(Qt::ItemIsEditable|Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+
+    }
 
 
