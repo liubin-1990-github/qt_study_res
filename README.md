@@ -1,3 +1,12 @@
+QMAKE_CFLAGS += -fexec-charset=UTF-8 -finput-charset=GBK
+QMAKE_CXXFLAGS += -fexec-charset=UTF-8 -finput-charset=GBK
+'-finput-charset' : 指定源文件的编码（默认UTF-8）
+
+'-fexec-charset' : 指定多字节字符串(const char*)常量在编译后的程序里保存的编码集（默认UTF-8）
+
+'-fwide-exec-charset' : 指定宽字节字符串(const wchar_t*)常量在编译后的程序里的保存的编码集
+
+
 # qt_study_res
 
 ui->setupUi(this);
@@ -195,6 +204,100 @@ void Widget::keyReleaseEvent(QKeyEvent *event)
 {
 
 }
+    
+    --------------------------------------------------------------------------------------------
+    -----------------------------------------------
+    QTableWidget
+    {
+    ui->setupUi(this);
+    //清空所有标题和内容
+    ui->tableWidget->setColumnCount(0);
+    ui->tableWidget->setRowCount(0);
+
+    ui->tableWidget->setColumnCount(5);
+    ui->tableWidget->setHorizontalHeaderItem(0,new QTableWidgetItem("13232"));
+    ui->tableWidget->setHorizontalHeaderItem(1,new QTableWidgetItem("22323232"));
+        //设置标题列的宽度
+    ui->tableWidget->setColumnWidth(0,200);
+
+    //设置垂直标题
+    ui->tableWidget->setRowCount(3);
+    QStringList List = {"1","2","3"};
+    ui->tableWidget->setVerticalHeaderLabels(List);
+
+
+}
+    setRowCount(5) 会删除多余的item'控件
+        //插入数据，
+    ui->tableWidget->setItem(1,1,new QTableWidgetItem("insert 1"));// row 1 col 1   插入
+
+    //结尾加一行
+    int row =ui->tableWidget->rowCount();
+    ui->tableWidget->insertRow(row);
+    
+        //插入QIcon图片
+    ui->tableWidget->item(0,1)->setIcon(QIcon(NULL));
+    ui->tableWidget->setRowHeight(0,80);
+    ui->tableWidget->setIconSize(QSize(ui->tableWidget->rowHeight(0),ui->tableWidget->rowHeight(0)));
+    
+    //charu widget图片
+    
+    QLabel *img = new QLabel();
+    QPixmap pix("path");
+    pix=pix.scaled(ui->tableWidget->columnWidth(0),ui->tableWidget->rowHeight(row));
+    img->setPixmap(pix);
+    ui->tableWidget->setCellWidget(row ,0,img);
+    
+    void Widget::on_pushButton_clicked()
+{
+    //空行无法选择
+    QList<QTableWidgetItem *> item =ui->tableWidget->selectedItems();//获取鼠标选中的item 存入item中 空行无法选择
+    for(int i =0;i<item.size();i++)
+    {
+        qDebug()<<item[i]->row()<<" ;"<<item[i]->column()<<" text="<<item[i]->text();
+    }
+
+
+    //选择模式器
+    QItemSelectionModel *model  =  ui->tableWidget->selectionModel();
+    //获取所有的选择索引
+    QModelIndexList slist = model->selectedIndexes();
+
+    //获取所有被选中的行号
+    std::set<int> row;
+    for(int i = 0;i<slist.size();i++)
+    {
+        //重复的会插入失败
+        row.insert(slist[i].row());
+    }
+
+    QString msg =QStringLiteral("确认删除");
+    for(std::set<int >::iterator itr=row.begin();itr!=row.end();itr++)
+    {
+        QTableWidgetItem *item = ui->tableWidget->item(*itr,0);
+        msg +="[";
+        msg+=QString::number(*itr+1);
+        msg+=":";
+        if(item)
+            msg +=item->text();
+        msg+="]";
+
+    }
+    QMessageBox::information(this,"",msg,QStringLiteral("确认"),QStringLiteral("取消"));
+
+    //删除多行
+    for(;;)
+    {
+        //获取所有的选择索引
+        QModelIndexList s = model->selectedIndexes();
+        if(s.size()<=0) break;
+
+        //每次只删除一行
+        ui->tableWidget->removeRow(s[0].row());
+    }
+
+}
+    
     
     
     
