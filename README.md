@@ -95,11 +95,12 @@ Q_DECLARE_METATYPE(MyType)
 
 
 //访问自定义数据
+Q_DECLARE_METATYPE(MyType)
 void Widget::on_pushButton_clicked()
 {
     qDebug()<<ui->comboBox->itemText(0);
     QVariant var = ui->comboBox->itemData(0);
-    qDebug()<< "var.value<MyType>().x ="<<var.value<MyType>().x;
+    qDebug()<< "var.value<MyType>().x ="<<var.value<MyType>().x; //模板函数获取
 }
     
    comboBox 的一些信号
@@ -157,5 +158,45 @@ void Widget::on_pushButton_clicked()
         ui->listWidget->item(i)->setFlags(Qt::ItemIsEditable|Qt::ItemIsSelectable|Qt::ItemIsEnabled);
 
     }
+   QListWidget 排序
+    {
+    static bool isDesc = false;
+    if(!isDesc)
+    {
+        ui->listWidget->sortItems(Qt::DescendingOrder);
+    }
+    else
+    {
+        ui->listWidget->sortItems(Qt::AscendingOrder);
+    }
+    isDesc=!isDesc;
+}
+    
+    ListWidget信号  。。。
+    listWidget可以显示其他控件
+    
+    ------------------------------------------------------------
+    
+    ------------------------------------------------------------
+    
+    ------------------------------------------------------------
+     if(event->isAutoRepeat()) return; 
+    
+    void Widget::keyPressEvent(QKeyEvent *event)
+{
+    if(event->isAutoRepeat()) return;
+    if(event->key()==Qt::Key_F1)
+    {
+        qDebug()<<"F1";
+    }
+}
+
+void Widget::keyReleaseEvent(QKeyEvent *event)
+{
+
+}
+    
+    
+    
 
 
