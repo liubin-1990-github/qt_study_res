@@ -300,6 +300,57 @@ void Widget::keyReleaseEvent(QKeyEvent *event)
     
     
     
+    -----------------------------------------------------
+    treeWidget
+    
+    
+     //添加顶部标题
+    ui->treeWidget->headerItem()->setText(0,"标题1");
+    ui->treeWidget->headerItem()->setText(1,"head2");
+    ui->treeWidget->headerItem()->setText(2,"head3");
+    ui->treeWidget->headerItem()->setText(3,"head4");
+
+
+
+
+
+//    ui->treeWidget->topLevelItem(i)->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled);
+
+    //插入数据  在结尾出插入
+    ui->treeWidget->addTopLevelItem(new QTreeWidgetItem);
+    ui->treeWidget->topLevelItem(0)->setText(0,"tree node 1");
+    ui->treeWidget->topLevelItem(0)->setText(1,"tree node 11");
+
+    ui->treeWidget->addTopLevelItem(new QTreeWidgetItem({"tree node 31","tree node 32"}));
+    //开头插入
+    ui->treeWidget->insertTopLevelItem(0,new QTreeWidgetItem({"insert 1","insert 2"}));
+    //结尾插入
+    ui->treeWidget->insertTopLevelItem(ui->treeWidget->topLevelItemCount(),new QTreeWidgetItem({"insert end 1","insert end 2"}));
+    // 直接new
+    QTreeWidgetItem *node = new QTreeWidgetItem(ui->treeWidget);
+    node ->setText(0,"new");
+
+    ui->treeWidget->topLevelItem(0)->addChild(new QTreeWidgetItem({"child1"}));
+    ui->treeWidget->topLevelItem(0)->addChild(new QTreeWidgetItem({"child2"}));
+    ui->treeWidget->topLevelItem(0)->addChild(new QTreeWidgetItem({"child3"}));
+
+    ui->treeWidget->topLevelItem(0)->child(0)->addChild(new QTreeWidgetItem({"2-chilid1"}));
+
+    ui->treeWidget->topLevelItem(1)->addChild(new QTreeWidgetItem({"child11"}));
+    ui->treeWidget->topLevelItem(1)->addChild(new QTreeWidgetItem({"child12"}));
+
+
+    //插入图片
+    ui->treeWidget->setIconSize(QSize(60,60));
+    ui->treeWidget->topLevelItem(0)->setIcon(0,QIcon());
+
+    //插入widget 控件
+
+    QPushButton *btn = new QPushButton("test");
+    ui->treeWidget->setItemWidget(ui->treeWidget->topLevelItem(1),0,btn);
+    
+    
+    
     
 
 
