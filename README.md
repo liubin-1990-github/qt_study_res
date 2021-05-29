@@ -575,5 +575,57 @@ int main(int argc, char *argv[])
     
     
     
+    =--------------------------------------------------------
+    
+    QMainWindow
+        QMenuBar *m = new QMenuBar(this);
+    QMenu *m1= m->addMenu(QStringLiteral("菜单1"));
+    QMenu *m2= m->addMenu(QStringLiteral("菜单2"));
+    QMenu *m3= m->addMenu(QStringLiteral("菜单3"));
+
+
+    m1->addAction(QStringLiteral("二级菜单1.1"));
+    m1->addAction(QStringLiteral("二级菜单1.2"));
+    m1->addAction(QStringLiteral("二级菜单1.3"));
+    QMenu *m14= m1->addMenu(QStringLiteral("二级菜单4"));
+    m14->addAction(QStringLiteral("三级菜单"));
+    
+    //action下面不能再加东西
+    //menu下面能加menu 和action action到头
+        //包含menu1的所有子节点 以及所有子节点的子节点都触发
+    connect(m1,SIGNAL(triggered(QAction*)),this,SLOT(Action(QAction*)));
+    
+    
+    动态菜单
+        void mHover(QAction *act)
+    {
+        if(act->text()==QStringLiteral("菜单3"))
+        {
+            qDebug()<<"hover"<<act->text();
+            act->menu()->clear();
+            act->menu()->addAction(QStringLiteral("菜单1"));
+            act->menu()->addAction(QStringLiteral("菜单2"));
+            act->menu()->addAction(QStringLiteral("菜单3"));
+
+        }
+
+    }
+    
+        QAction *a1= m1->addAction(QStringLiteral("二级菜单1.1"));
+    a1->setShortcut(QString("a"));
+    
+        //工具栏
+    QToolBar *tool=new QToolBar(this);
+    tool->setGeometry(0,m->height(),width(),30);
+    tool->addAction(a1);
+
+    //状态栏
+    QStatusBar *bar = new QStatusBar(this);
+    bar->setGeometry(0,height()-30,width(),30);
+    //3000ms 消失
+    bar->showMessage(QStringLiteral("ds"),3000);
+    
+    
+    
 
 
