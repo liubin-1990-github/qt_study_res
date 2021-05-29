@@ -546,6 +546,32 @@ int main(int argc, char *argv[])
     dd->show();
     return a.exec();
 }
+    ----------------------------------------
+    qGridlayout
+    
+    
+        QApplication a(argc, argv);
+    Widget w;
+
+    QWidget* q = new QWidget;
+    QGridLayout *gl = new QGridLayout(q);
+    QPushButton *but1 =new QPushButton("but1");
+
+    gl->addWidget(but1,0,0);
+
+    QPushButton *but2 =new QPushButton("but2");
+
+    gl->addWidget(but2,0,1);
+
+    QPushButton *but3=new QPushButton("but3");
+
+    gl->addWidget(but3,0,3);
+
+    QPushButton *but4 =new QPushButton("but4");
+
+    gl->addWidget(but4,0,4);
+    gl->setHorizontalSpacing(100);
+    gl->setVerticalSpacing(10);
     
     
     
