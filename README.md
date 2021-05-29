@@ -625,6 +625,79 @@ int main(int argc, char *argv[])
     //3000ms 消失
     bar->showMessage(QStringLiteral("ds"),3000);
     
+    ------------------------------------------
+    -----------------------------------------
+    paintEvent
+    
+    {
+    QPainter p(this);
+//    p.setFont(QFont(QStringLiteral("黑体"),30));
+    QFont font= ui->fontComboBox->currentFont();
+    font.setPixelSize(30);
+    p.setFont(font);
+
+    p.setPen(QColor(52,3,233));
+    p.drawText(100,100,QStringLiteral("的撒"));
+
+
+    //画线查看手册 QPen
+
+    //设置样式
+    QPen pen;
+    pen.setStyle(Qt::SolidLine); //实线
+    pen.setWidth(30);
+    pen.setBrush(Qt::red);
+    //结尾端样式
+    pen.setCapStyle(Qt::RoundCap);
+    //连接出样式
+    pen.setJoinStyle(Qt::RoundJoin);
+
+    p.setPen(pen);
+    p.drawLine(32,32,54,76);
+
+    QVector<QLine>lines;
+    lines.push_back(QLine(200,200,200,300));
+    lines.push_back(QLine(200,100,200,400));
+    lines.push_back(QLine(100,200,300,300));
+    lines.push_back(QLine(300,200,200,300));
+    p.drawLines(lines);
+
+
+
+
+
+
+
+}
+    --------------------------------------------------------------------------------------
+    QImage(1280,720,QImage::Format_RGBA8888);//宽度以4对齐
+    
+        ui->setupUi(this);
+    img=QImage(1280,720,QImage::Format_RGBA8888);
+    //填入颜色
+    img.fill(QColor(255,0,0,200));
+    //遍历设置颜色
+    uchar *data = img.bits();
+    //假定已对齐  不对齐会出错 性能高点
+    for(int i=0;i<img.width();i++)
+    {
+        for(int j=0;j<img.height()/2;j++)
+        {
+             data[j*img.width()*4+i*4]=0; //r
+             data[j*img.width()*4+i*4+1]=255; //g
+             data[j*img.width()*4+i*4+2]=0; //b
+             data[j*img.width()*4+i*4+3]=255; //a
+        }
+    }
+    //利用接口
+    for(int i=0;i<img.width()/2;i++)
+    {
+        for(int j=0;j<img.height()/2;j++)
+        {
+            img.setPixelColor(i,j,QColor(0,0,0,255));
+        }
+    }
+    
     
     
 
